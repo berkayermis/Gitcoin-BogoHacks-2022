@@ -15,7 +15,7 @@ https://bogohacks.vercel.app/
 ## Person of contact in case there are any questions
 
 Name: Berkay Ermiş
-Linkedin: /mberkayermis
+Linkedin: /mbermis
 Twitter: /mberkayermis
 Email: berkay@yeklabs.com && mberkayermis@gmail.com
 

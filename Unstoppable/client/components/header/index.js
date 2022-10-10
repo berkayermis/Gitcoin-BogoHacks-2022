@@ -6,26 +6,37 @@ import styles from './styles.module.css';
 import uns from '../../public/uns.webp';
 import Link from 'next/link';
 import { Resolution } from '@unstoppabledomains/resolution';
-import cn from 'classnames';
+import { useWeb3 } from '../web3/providers'
+import { setCookie, deleteCookie } from 'cookies-next';
 
 const Header = () => {
     const [auth, setAuth] = useState(null);
     const [user, setUser] = useState(null);
+    const { contract } = useWeb3();
 
     useEffect(() => {
         const uauth = new UAuth({
-            clientID: "2de90210-6ade-4f50-bdaa-b77d854b67b1",
+            clientID: process.env.CLIENT_ID,
             redirectUri: "http://localhost:3000",
             scope: "openid wallet",
         }) 
+        console.log(uauth)
         setAuth(uauth)
         }, [])
 
+    useEffect(() => {
+        console.log(contract)
+    }, [contract])
+        
         const logingWithUAuth = async () => {
         try{
             const user = await auth.loginWithPopup()
             setUser(user)
             console.log(user)
+            setCookie('user', user.idToken.wallet_address)
+            setCookie('sub', user.idToken.sub)
+            setCookie('message', user.idToken.eip4361_message)
+            setCookie('signature', user.idToken.eip4361_signature)
         }
         catch(err){
             console.log(err)
@@ -52,6 +63,7 @@ const Header = () => {
             const result = await auth.logout()
             setUser(result)
             console.log(result)
+            deleteCookie('user')
         }
         catch(err){
             console.log(err)

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 body{
     @apply
     bg-gradient-to-t from-[#4d47f8] to-[#9acd1a]

@@ -6,3 +6,13 @@
     cursor-pointer
     font-semibold
 }
+
+.profileLink {
+    @apply
+    border-b-2
+    border-[#4d47f8]
+    mr-5 hover:text-gray-900
+    text-[#4d47f8]
+    cursor-pointer
+    font-semibold
+}

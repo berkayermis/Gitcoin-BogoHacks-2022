@@ -5,6 +5,8 @@ import Image from 'next/image';
 import styles from './styles.module.css';
 import uns from '../../public/uns.webp';
 import Link from 'next/link';
+import { Resolution } from '@unstoppabledomains/resolution';
+import cn from 'classnames';
 
 const Header = () => {
     const [auth, setAuth] = useState(null);
@@ -12,9 +14,9 @@ const Header = () => {
 
     useEffect(() => {
         const uauth = new UAuth({
-            clientID: process.env.CLIENT_ID,
+            clientID: "2de90210-6ade-4f50-bdaa-b77d854b67b1",
             redirectUri: "http://localhost:3000",
-            scope: "openid wallet humanity_check",
+            scope: "openid wallet",
         }) 
         setAuth(uauth)
         }, [])
@@ -27,9 +29,24 @@ const Header = () => {
         }
         catch(err){
             console.log(err)
-        }
+        }        
         }
 
+    const resolve = async (domain, currency) => {
+        const resolution = new Resolution();
+            resolution
+                .addr(domain, currency)
+                .then((address) => console.log(domain, 'resolves to', address))
+                .catch(console.error);
+    }
+
+    const resolveDomain = async () => {
+        const domain = "berkayermis00.wallet";
+        const currency = "ETH";
+        resolve(domain, currency);
+        console.log(user.idToken.wallet_address)
+    }
+              
         const logout = async () => {
         try{
             const result = await auth.logout()
@@ -68,7 +85,23 @@ const Header = () => {
                 </Link>
                 </nav>
                 {user ? (
-                <p>xd</p> )
+                    <>
+                <Link href={{
+                    pathname: `/profile/${user.idToken.wallet_address}`,
+                    query: { sub: user.idToken.sub },
+                }}>
+                    <a className={styles.profileLink}>{user.idToken.sub}</a>
+                </Link>
+                <button
+                onClick={logout}
+                className="inline-flex items-center text-white bg-red-500 border-0 py-1 px-3 focus:outline-none hover:opacity-90 rounded text-base mt-4 md:mt-0">
+                    Logout
+                <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-1" viewBox="0 0 24 24">
+                    <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+                </button>
+                </>
+                )
                 : (
                     <button
                 onClick={logingWithUAuth}

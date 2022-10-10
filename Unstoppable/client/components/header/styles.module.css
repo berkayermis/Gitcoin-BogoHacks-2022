@@ -2,7 +2,7 @@
 .navLink {
     @apply
     mr-5 hover:text-gray-900
-    text-[#6056ad]
+    text-[#4d47f8]
     cursor-pointer
     font-semibold
 }

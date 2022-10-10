@@ -4,6 +4,7 @@ import college from '../../public/college.png';
 import Image from 'next/image';
 import styles from './styles.module.css';
 import uns from '../../public/uns.webp';
+import Link from 'next/link';
 
 const Header = () => {
     const [auth, setAuth] = useState(null);
@@ -13,7 +14,7 @@ const Header = () => {
         const uauth = new UAuth({
             clientID: process.env.CLIENT_ID,
             redirectUri: "http://localhost:3000",
-            scope: "openid wallet",
+            scope: "openid wallet humanity_check",
         }) 
         setAuth(uauth)
         }, [])
@@ -43,15 +44,25 @@ const Header = () => {
     return (
         <header className="text-gray-600 body-font">
             <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
-                <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
-                <Image src={college} alt="college" width={60} height={60} />
-                <span className="ml-5 text-2xl text-[#6056ad]">uniDAO</span>
-                </a>
+                <Link href={"/"}>
+                    <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+                    <Image src={college} alt="college" width={60} height={60} />
+                    <span className="ml-5 text-2xl text-[#4d47f8]">uniDAO</span>
+                    </a>
+                </Link>
                 <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-                <a className={styles.navLink}>Universities</a>
-                <a className={styles.navLink}>About</a>
-                <a className={styles.navLink}>Contact</a>
-                <a className={styles.navLink}>Apply</a>
+                <Link href={"/universities"}>
+                    <a className={styles.navLink}>Universities</a>
+                </Link>
+                <Link href={"/about"}>
+                    <a className={styles.navLink}>About</a>
+                </Link>
+                <Link href={"/contact"}>
+                    <a className={styles.navLink}>Contact</a>
+                </Link>
+                <Link href={"/apply"}>
+                    <a className={styles.navLink}>Apply</a>
+                </Link>
                 </nav>
                 {user ? (
                 <p>xd</p> )

@@ -51,6 +51,9 @@ const Header = () => {
                     </a>
                 </Link>
                 <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
+                <Link href={"/"}>
+                    <a className={styles.navLink}>Home</a>
+                </Link>
                 <Link href={"/universities"}>
                     <a className={styles.navLink}>Universities</a>
                 </Link>

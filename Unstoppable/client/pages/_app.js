@@ -1,11 +1,10 @@
 import '../styles/globals.css'
-import type { AppProps } from 'next/app'
 import { Web3Provider } from "../components/web3/providers";
 
-import Header from '../components/Header/index'
+import Header from "../components/Header";
 import Footer from '../components/Footer/index'
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }) {
   return (
   <>
   <Web3Provider>

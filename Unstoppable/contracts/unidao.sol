@@ -23,9 +23,9 @@ contract Unidao is Ownable {
     struct university {
         address admin;
         string universityName;
-        string universityDescription;
         uint256 universityId;
         string country;
+        string city;
         string communityName;
         string moderatorDomain;
         uint totalNoOfCommunity;
@@ -39,22 +39,24 @@ contract Unidao is Ownable {
 
     function applicationFunction(
                     string memory _universityName, 
-                    string memory _universityDescription,
                     string memory _country, 
+                    string memory _city,
                     string memory _communityName, 
                     string memory _moderatorDomain, 
                     uint _totalNoOfCommunity,
-                    string _signature,
+                    uint8 _v,
+                    bytes32 _r,
+                    bytes32 _s,
                     bytes32 _hashedMessage
                     ) public {
-        expectedAddress = verifySignature(_hashedMessage, _signature);
+        address expectedAddress = verifySignature(_hashedMessage, _v, _r, _s);
         require(expectedAddress == msg.sender, "Invalid signature");
-        universities[universityCount] = application(
+        universities[universityCount] = university(
             msg.sender, 
             _universityName, 
-            _universityDescription,
             universityCount,
             _country, 
+            _city,
             _communityName, 
             _moderatorDomain, 
             _totalNoOfCommunity
@@ -79,14 +81,14 @@ contract Unidao is Ownable {
         return universities[_index];
     }
 
-    function verifySignature(bytes32 _hashedMessage, bytes memory _signature) internal pure returns (address) {
+    function verifySignature(bytes32 _hashedMessage, uint8 _v, bytes32 _r, bytes32 _s) internal pure returns (address) {
         bytes memory prefix = "\x19Ethereum Signed Message:\n32";
         bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _hashedMessage));
-        address signer = ecrecover(prefixedHashMessage, uint8(_signature[0]), uint8(_signature[1]), uint8(_signature[2]));
+        address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
         return signer;
     }
 
-    function createPoll(uint _duration, uint _universityId) public {
+    function createPoll(uint _duration, uint _universityId, string memory _universityName, string memory _pollDescription) public {
         require(universities[_universityId].admin == msg.sender, "You are not the admin of this university");
         polls[pollCount] = Poll(
             _universityName,
@@ -102,4 +104,10 @@ contract Unidao is Ownable {
         emit pollCreated(msg.sender, _universityName, pollCount);
         pollCount++;
     } 
-}
+
+    function verifySignatureV2(bytes32 _hashedMessage, uint8 _v, bytes32 _r, bytes32 _s) public pure returns (address) {
+        bytes memory prefix = "\x19Ethereum Signed Message:\n32";
+        bytes32 prefixedHashMessage = keccak256(abi.encodePacked(prefix, _hashedMessage));
+        address signer = ecrecover(prefixedHashMessage, _v, _r, _s);
+        return signer;
+    }}

@@ -16,10 +16,10 @@ const Header = () => {
 
     useEffect(() => {
         const uauth = new UAuth({
-            clientID: "2de90210-6ade-4f50-bdaa-b77d854b67b1",
-            redirectUri: "https://bogohacks.vercel.app/",
-            scope: "openid wallet",
-        }) 
+                clientID: "2de90210-6ade-4f50-bdaa-b77d854b67b1",
+                redirectUri: "https://bogohacks.vercel.app",
+                scope: "openid wallet"
+        })
         console.log(uauth)
         setAuth(uauth)
         }, [])

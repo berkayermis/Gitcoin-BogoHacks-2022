@@ -16,7 +16,7 @@ const Header = () => {
 
     useEffect(() => {
         const uauth = new UAuth({
-            clientID: process.env.CLIENT_ID,
+            clientID: "2de90210-6ade-4f50-bdaa-b77d854b67b1",
             redirectUri: "http://localhost:3000",
             scope: "openid wallet",
         }) 
